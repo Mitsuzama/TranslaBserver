@@ -1,0 +1,17 @@
+<h2>Cauta Serie Anime Tradusa</h2>
+
+<!-- 
+UI for the user to input the serie he is searching.
+    @input passes the name for the searchOptions
+ -->
+<form action="/series" method="GET">
+    <label>Name</label>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Afisarea tuturor seriilor -->
+<br>
+<% series.forEach(serie => { %>
+    <div><%= serie.name %></div>
+<% }); %>

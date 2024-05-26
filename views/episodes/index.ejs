@@ -1,0 +1,17 @@
+<h2>Cauta Episod Anime Tradus</h2>
+
+<!-- 
+UI for the user to input the serie he is searching.
+    @input passes the name for the searchOptions
+ -->
+<form action="/episodes" method="GET">
+    <label>Titlu</label>
+    <input type="text" name="title" value="<%= searchOptions.title %>">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Afisarea tuturor seriilor -->
+<br>
+<% series.forEach(serie => { %>
+    <div><%= serie.title %></div>
+<% }); %>

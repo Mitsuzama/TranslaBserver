@@ -4,8 +4,8 @@ const Episod = require('../models/episod')
 const Serie = require('../models/serie')
 const path = require('path')
 const multer = require('multer')
+const fs = require('fs')
 const uploadTranslatedFilePath = path.join('public', Episod.translatedFileBasePath)
-const translationMimeTypes = ['text/plain', 'text/x-ass']
 const upload = multer({
     dest: uploadTranslatedFilePath
 })
@@ -39,6 +39,9 @@ router.post('/', upload.single('translatedFile'), async (req, res) => {
         res.redirect(`episodes`)
     }
     catch {
+        if(episod.translatedFile != null){
+            removeTranslationFile(episod.translatedFile)
+        }
         renderNewPage(res, episod, true)
     }
 })
@@ -61,5 +64,13 @@ async function renderNewPage(res, episod, hasError = false) {
     }
 }
 
+// function that unlinks the cover file
+function removeTranslationFile(fileName) {
+    fs.unlink(path.join(uploadTranslatedFilePath, fileName), err => {
+        if(err) {
+            console.err(err)
+        }
+    })
+}
 
 module.exports = router

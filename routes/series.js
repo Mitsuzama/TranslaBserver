@@ -3,6 +3,7 @@ const router = express.Router()
 const Serie = require('../models/serie')
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 const uploadPath = path.join('public', Serie.coverImageBasePath)
 const upload = multer({
     dest: uploadPath
@@ -50,14 +51,22 @@ router.post('/', upload.single('cover'), async (req, res) => {
         res.redirect(`series`);
     }
     catch (err){
-        console.log('AAAAAAAAAAAAAAAAAAAA')
-        console.log(serie.fileName)
-        console.log(err)
+        if(serie.coverPicture != null){
+            removeCoverPicture(serie.coverPicture)
+        }
         res.render('series/new', {
             serie: serie,
             errorMessage: 'Error creating Serie'
         });
     }
 })
+
+function removeCoverPicture(fileName){
+    fs.unlink(path.join(uploadPath, fileName), err => {
+        if(err) {
+            console.err(err)
+        }
+    })
+}
 
 module.exports = router

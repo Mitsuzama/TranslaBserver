@@ -1,13 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const Serie = require('../models/serie')
-
+const multer = require('multer')
+const path = require('path')
+const uploadPath = path.join('public', Serie.coverImageBasePath)
+const upload = multer({
+    dest: uploadPath
+})
 
 // All Anime Shows(Serie) route
 router.get('/', async (req, res) => {
     let searchOptions = {}
-    if (req.query.name != null && req.query.name !== ''){
-        searchOptions.name = new RegExp(req.query.name, 'i')
+
+    if (req.query.title != null && req.query.title !== ''){
+        searchOptions.title = new RegExp(req.query.title, 'i')
     }
     
     try {
@@ -27,22 +33,31 @@ router.get('/new', (req, res) =>
 )
 
 // Create Translated Anime Show
-router.post('/', async (req, res) => {
+router.post('/', upload.single('cover'), async (req, res) => {
+    console.log('Request file:', req.file)
+    const fileName = req.file != null ? req.file.filename : null
+
     const serie = new Serie({
-        name: req.body.name
+        title: req.body.title,
+        description: req.body.description,
+        noOfEpisodes: req.body.noOfEpisodes,
+        coverPicture: fileName
     })
 
     try {
         const newSerie = await serie.save();
         // res.redirect(`series/${newSerie.id}`);
-        res.redirect('series');
-    } catch (err) {
+        res.redirect(`series`);
+    }
+    catch (err){
+        console.log('AAAAAAAAAAAAAAAAAAAA')
+        console.log(serie.fileName)
+        console.log(err)
         res.render('series/new', {
             serie: serie,
             errorMessage: 'Error creating Serie'
         });
     }
 })
-
 
 module.exports = router

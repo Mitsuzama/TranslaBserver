@@ -1,2 +1,19 @@
-<label>Nume</label>
-<input type="text" name="name" vlue="<%= serie.name %>">
+<div>
+    <label for="title">Titlu</label>
+    <input type="text" name="title" id="title" value="<%= serie.title %>">
+</div>
+
+<div>
+    <label>Cover</label>
+    <input type="file" name="cover">
+</div>
+
+<div>
+    <label for="description">Descriere</label>
+    <textarea id="description" name="description"><%= serie.description %></textarea>
+</div>
+
+<div>
+    <label for="noOfEpisodes">Numar episoade</label>
+    <input type="text" name="noOfEpisodes" id="noOfEpisodes" value="<%= serie.noOfEpisodes %>">
+</div>

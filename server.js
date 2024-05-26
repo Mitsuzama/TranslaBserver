@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
 const serieRouter = require('./routes/series')
+const episodRouter = require('./routes/episod')
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -25,5 +26,6 @@ db.once('open', () => console.error('Connected to My Goose(i know it\'s mongoose
 
 app.use('/', indexRouter)
 app.use('/series', serieRouter)
+app.use('/episodes', episodRouter)
 
 app.listen(process.env.PORT || 3000)

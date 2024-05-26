@@ -25,5 +25,11 @@ const serieSchema = new mongoose.Schema({
     }
 })
 
+serieSchema.virtual('coverImagePath').get(function() {
+    if (this.coverPicture != null) {
+        return path.join('/', coverImageBasePath, this.coverPicture)
+    }
+})
+
 module.exports = mongoose.model('Serie', serieSchema)
 module.exports.coverImageBasePath = coverImageBasePath

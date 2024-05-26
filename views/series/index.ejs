@@ -14,4 +14,5 @@ UI for the user to input the serie he is searching.
 <br>
 <% series.forEach(serie => { %>
     <div><%= serie.title %></div>
-<% }); %>
+    <img height="150" width="100" src="<%= serie.coverImagePath %>">
+<% }) %>

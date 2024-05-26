@@ -2,16 +2,25 @@
 
 <!-- 
 UI for the user to input the serie he is searching.
-    @input passes the name for the searchOptions
+    @input passes the name for the searchParameters
  -->
 <form action="/episodes" method="GET">
-    <label>Titlu</label>
-    <input type="text" name="title" value="<%= searchOptions.title %>">
+    <div>
+        <label>Titlu</label>
+        <input type="text" name="title" value="<%= searchParameters.title %>">
+    </div>
+    <div>
+        <label>Numarul episodului</label>
+        <input type="number" min="1" name="episodeNumber" value="<%= searchParameters.episodeNumber %>">
+    </div>
     <button type="submit">Search</button>
 </form>
 
-<!-- Afisarea tuturor seriilor -->
+<!-- Afisarea tuturor episoadelor -->
 <br>
-<% series.forEach(serie => { %>
-    <div><%= serie.title %></div>
-<% }); %>
+<% episodes.forEach(episod => { %>
+    <div>
+        <div>Episodul numarul: <%= episod.episodeNumber %></div>
+        <div>Titlul: <%= episod.title %></div>
+    </div>
+<%}) %>

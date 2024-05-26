@@ -13,7 +13,25 @@ const upload = multer({
 
 // All Episodes route
 router.get('/', async (req, res) => {
-    res.send("All episodes")
+    let query = Episod.find()
+
+    if (req.query.title != null && req.query.title != '') {
+        query = query.regex('title', new RegExp(req.query.title, 'i'))
+    }
+    if (req.query.episodeNumber != null && req.query.episodeNumber != '') {
+        query = query.regex('episodeNumber', new RegExp(req.query.episodeNumber, 'i'))
+    }
+    
+    try {
+        const episodes = await query.exec()
+        res.render('episodes/index', {
+            episodes: episodes,
+            searchParameters: req.query
+        })
+    }
+    catch {
+        res.redirect('/')
+    }
 })
 
 // New Episode Route

@@ -1,14 +1,16 @@
 const mongoose = require('mongoose')
 const path = require('path')
 
-const coverImageBasePath = 'uploads/coverImage'
-
 const serieSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
     },
     coverPicture: {
+        type: Buffer,
+        required: true
+    },
+    coverImageType: {
         type: String,
         required: true
     },
@@ -26,10 +28,9 @@ const serieSchema = new mongoose.Schema({
 })
 
 serieSchema.virtual('coverImagePath').get(function() {
-    if (this.coverPicture != null) {
-        return path.join('/', coverImageBasePath, this.coverPicture)
+    if (this.coverPicture != null && this.coverImageType != null) {
+        return `data:${this.coverImageType};charset=utf-8;base64,${this.coverPicture.toString('base64')}`
     }
 })
 
 module.exports = mongoose.model('Serie', serieSchema)
-module.exports.coverImageBasePath = coverImageBasePath

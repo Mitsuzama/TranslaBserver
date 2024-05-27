@@ -1,13 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Serie = require('../models/serie')
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
-const uploadPath = path.join('public', Serie.coverImageBasePath)
-const upload = multer({
-    dest: uploadPath
-})
 
 // All Anime Shows(Serie) route
 router.get('/', async (req, res) => {
@@ -34,16 +27,15 @@ router.get('/new', (req, res) =>
 )
 
 // Create Translated Anime Show
-router.post('/', upload.single('cover'), async (req, res) => {
+router.post('/', async (req, res) => {
     console.log('Request file:', req.file)
-    const fileName = req.file != null ? req.file.filename : null
 
     const serie = new Serie({
         title: req.body.title,
         description: req.body.description,
-        noOfEpisodes: req.body.noOfEpisodes,
-        coverPicture: fileName
+        noOfEpisodes: req.body.noOfEpisodes
     })
+    saveCover(serie, req.body.cover)
 
     try {
         const newSerie = await serie.save();
@@ -51,9 +43,6 @@ router.post('/', upload.single('cover'), async (req, res) => {
         res.redirect(`series`);
     }
     catch (err){
-        if(serie.coverPicture != null){
-            removeCoverPicture(serie.coverPicture)
-        }
         res.render('series/new', {
             serie: serie,
             errorMessage: 'Error creating Serie'
@@ -61,12 +50,14 @@ router.post('/', upload.single('cover'), async (req, res) => {
     }
 })
 
-function removeCoverPicture(fileName){
-    fs.unlink(path.join(uploadPath, fileName), err => {
-        if(err) {
-            console.err(err)
-        }
-    })
+// Check if we have a valid cover. If true, save it
+function saveCover(serie, coverEncoded) {
+    if(coverEncoded ==null) return
+    const cover = JSON.parse(coverEncoded)
+    if (cover!=null) {
+        serie.coverPicture = new Buffer.from(cover.data, 'base64')
+        serie.coverImageType = cover.type
+    }
 }
 
 module.exports = router

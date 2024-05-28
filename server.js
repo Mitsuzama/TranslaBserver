@@ -1,24 +1,32 @@
+import dotenv from 'dotenv'
+import express from 'express'
+import expressLayouts from 'express-ejs-layouts'
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+import indexRouter from './routes/index.js'
+import serieRouter from './routes/series.js'
+import episodRouter from './routes/episod.js'
+
+const app = express()
+
+// Convert `import.meta.url` to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 if (process.env.NODE_ENV !== 'production'){
-    require('dotenv').config()
+    dotenv.config();
 }
 
-const express = require('express')
-const app = express()
-const expressLayouts = require('express-ejs-layouts')
-const bodyParser = require('body-parser')
-
-const indexRouter = require('./routes/index')
-const serieRouter = require('./routes/series')
-const episodRouter = require('./routes/episod')
-
 app.set('view engine', 'ejs')
-app.set('views', __dirname + '/views')
+app.set('views', path.join(__dirname, 'views'))
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
-const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, { })
 const db = mongoose.connection
 db.on('error', error => console.error(error))

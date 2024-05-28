@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const path = require('path')
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const serieSchema = new mongoose.Schema({
     title: {
@@ -33,4 +33,7 @@ serieSchema.virtual('coverImagePath').get(function() {
     }
 })
 
-module.exports = mongoose.model('Serie', serieSchema)
+// module.exports = mongoose.model('Serie', serieSchema)
+// export default mongoose.model('Serie', serieSchema)
+const Serie = mongoose.model('Serie', serieSchema)
+export default Serie

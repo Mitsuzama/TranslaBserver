@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-
-const translatedFileBasePath = 'uploads/translatedFiles'
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const episodSchema = new mongoose.Schema({
     episodeNumber: {
@@ -25,5 +24,12 @@ const episodSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Episod', episodSchema)
-module.exports.translatedFileBasePath = translatedFileBasePath
+// module.exports = mongoose.model('Episod', episodSchema)
+// module.exports.translatedFileBasePath = translatedFileBasePath
+
+// export default mongoose.model('Episod', episodSchema)
+// export default translatedFileBasePath
+
+export const Episod = mongoose.model('Episod', episodSchema)
+export const translatedFileBasePath = 'uploads/translatedFiles'
+// export const translatedFileBasePath = translatedFileBasePath;

@@ -1,18 +1,20 @@
-const express = require('express')
-const router = express.Router()
-const Episod = require('../models/episod')
-const Serie = require('../models/serie')
-const path = require('path')
-const multer = require('multer')
-const fs = require('fs')
-const uploadTranslatedFilePath = path.join('public', Episod.translatedFileBasePath)
+import express from 'express'
+import { Episod, translatedFileBasePath } from '../models/episod.js'
+import Serie from '../models/serie.js'
+import path from 'path'
+import multer from 'multer'
+import fs from 'fs'
+
+const episodRouter = express.Router()
+
+const uploadTranslatedFilePath = path.join('public', translatedFileBasePath)
 const upload = multer({
     dest: uploadTranslatedFilePath
 })
 
 
 // All Episodes route
-router.get('/', async (req, res) => {
+episodRouter.get('/', async (req, res) => {
     let query = Episod.find()
 
     if (req.query.title != null && req.query.title != '') {
@@ -35,12 +37,12 @@ router.get('/', async (req, res) => {
 })
 
 // New Episode Route
-router.get('/new', async (req, res) => {
+episodRouter.get('/new', async (req, res) => {
     renderNewPage(res, new Episod())
 })
 
 // Create Episode
-router.post('/', upload.single('translatedFile'), async (req, res) => {
+episodRouter.post('/', upload.single('translatedFile'), async (req, res) => {
     const fileName = req.file != null ? req.file.filename : null
 
     const episod = new Episod({
@@ -91,4 +93,5 @@ function removeTranslationFile(fileName) {
     })
 }
 
-module.exports = router
+// module.exports = router
+export default episodRouter

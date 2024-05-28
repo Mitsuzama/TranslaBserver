@@ -1,8 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const Episod = require('../models/episod')
+// const express = require('express')
+import express from 'express'
+const indexRouter = express.Router()
+// const Episod = equire('../models/episod')
+import { Episod, translatedFileBasePath } from '../models/episod.js'
 
-router.get('/', async (req, res) => {
+indexRouter.get('/', async (req, res) => {
     let episodes
     
     try {
@@ -16,4 +18,5 @@ router.get('/', async (req, res) => {
 })
 
 
-module.exports = router
+// module.exports = router
+export default indexRouter

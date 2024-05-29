@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
     // AWS part
     const command = new PutObjectCommand({
         Bucket: "translabserver-bucket",
-        Key: `covers/${Date.now()}`,
+        Key: `covers/${Date.now()}_${req.body.title}`,
         Body: serie.coverPicture,
         ContentType: serie.coverImageType
     })

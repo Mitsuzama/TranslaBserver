@@ -1,0 +1,7 @@
+<h2>Editare Serie</h2>
+<form action="/series/<%= serie.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+
+    <a href="/series/<%= serie.id %>">Cancel</a>
+    <button type="submit">Update</button>
+</form>

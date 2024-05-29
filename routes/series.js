@@ -1,15 +1,10 @@
-// const express = require('express')
 import express from 'express'
 const router = express.Router()
-// const Serie = require('../models/serie')
 import Serie from '../models/serie.js'
 
 ///
 // dependencies
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-
-// create S3 client
-// const s3 = new S3Client({region: 'us-east-1'})
 const client = new S3Client({})
 ///
 
@@ -87,14 +82,29 @@ router.post('/', async (req, res) => {
     }
 })
 
-// Check if we have a valid cover. If true, save it
-// function saveCover(serie, coverEncoded) {
-//     if(coverEncoded ==null) return
-//     const cover = JSON.parse(coverEncoded)
-//     if (cover != null) {
-//         serie.coverPicture = new Buffer.from(cover.data, 'base64')
-//         serie.coverImageType = cover.type
-//     }
-// }
+// :id - A variable with the value id will be passed along with the request
+router.get('/:id', (req, res) => {
+    res.send('Show Author ' + req.params.id)
+})
+
+// Edit path
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const serie = await Serie.findById(req.params.id)
+        res.render('series/edit', { serie: serie })
+    } catch(err) {
+        res.redirect('/series')
+    }
+})
+
+//Update route
+router.put('/:id', (req, res) => {
+    res.send('Update Author ' + req.params.id)
+})
+
+// Delete route
+router.delete('/:id', (req, res) => {
+    res.send('Delete Author ' + req.params.id)
+})
 
 export default router

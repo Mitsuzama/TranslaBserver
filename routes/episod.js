@@ -45,6 +45,7 @@ episodRouter.get('/new', async (req, res) => {
 episodRouter.post('/', upload.single('translatedFile'), async (req, res) => {
     const fileName = req.file != null ? req.file.filename : null
 
+    // console.log("aaaaaaaa", req.body)
     const episod = new Episod({
         episodeNumber: req.body.episodeNumber,
         title: req.body.title,
@@ -55,14 +56,79 @@ episodRouter.post('/', upload.single('translatedFile'), async (req, res) => {
 
     try {
         const newEpisod = await episod.save()
-        // res.redirect(`books/${newEpisod.id}`)
-        res.redirect(`episodes`)
+        res.redirect(`episodes/${newEpisod.id}`)
+        // res.redirect(`episodes`)
     }
-    catch {
+    catch (err) {
+        console.log(err)
         if(episod.translatedFile != null){
             removeTranslationFile(episod.translatedFile)
         }
         renderNewPage(res, episod, true)
+    }
+})
+
+// Show Episode Route
+episodRouter.get('/:id', async (req, res) => {
+    try {
+        const episod = await Episod.findById(req.params.id)
+                                    .populate('ownerSerie')
+                                    .exec()
+        res.render('episodes/show', { episod: episod })
+    } catch (err){
+        console.log(err)
+        res.redirect('/')
+    }
+})
+
+// Edit Episode Route
+episodRouter.get('/:id/edit', async (req, res) => {
+    try {
+        res.redirect('/')
+        // const episod = await Episod.findById(req.params.id)
+        // renderEditPage(res, episod)
+    } catch {
+        res.redirect('/')
+    }
+})
+
+episodRouter.put('/:id', async (req, res) => {
+    let episod
+
+    try {
+        episod = await Episod.findById(req.params.id)
+        episod.episodeNumber = req.body.episodeNumber
+        episod.totalNumberOfLines = req.body.totalNumberOfLines
+        episod.ownerSerie = req.body.ownerSerie
+        // episod.translatedFile = req.body.translatedFile
+
+        await episod.save()
+        res.redirect(`/episodes/${episod.id}`)
+    } catch {
+        if (episod != null) {
+            //renderEditPage(res, episod, true)
+        } else {
+            redirect('/')
+        }
+    }
+})
+
+// Delete Episode Page
+episodRouter.delete('/:id', async (req, res) => {
+    let episod
+    try {
+        episod = await Episod.findById(req.params.id)
+        await episod.deleteOne()
+        res.redirect('/episodes')
+    } catch {
+        if (episod != null) {
+            res.render('episodes/show', {
+                episod: episod,
+                errorMessage: 'Could not remove episod'
+            })
+        } else {
+            res.redirect('/')
+        }
     }
 })
 

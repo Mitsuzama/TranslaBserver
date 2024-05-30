@@ -11,7 +11,7 @@ indexRouter.get('/', async (req, res) => {
         episodes = await Episod.find().sort({ createAt: 'desc'}).exec()
     }
     catch (err){
-        console.err(err)
+        console.log(err)
         episodes = []
     }
     res.render('index', { episodes: episodes})

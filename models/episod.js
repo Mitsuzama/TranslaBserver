@@ -20,16 +20,9 @@ const episodSchema = new mongoose.Schema({
         ref: 'Serie'
     },
     translatedFile: {
-        type: String
+        type: Buffer
     }
 })
 
-// module.exports = mongoose.model('Episod', episodSchema)
-// module.exports.translatedFileBasePath = translatedFileBasePath
-
-// export default mongoose.model('Episod', episodSchema)
-// export default translatedFileBasePath
-
 export const Episod = mongoose.model('Episod', episodSchema)
 export const translatedFileBasePath = 'uploads/translatedFiles'
-// export const translatedFileBasePath = translatedFileBasePath;

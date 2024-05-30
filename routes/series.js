@@ -2,7 +2,6 @@ import express from 'express'
 const router = express.Router()
 import Serie from '../models/serie.js'
 
-///
 // dependencies
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { Episod } from '../models/episod.js'
@@ -42,7 +41,6 @@ router.post('/', async (req, res) => {
         description: req.body.description,
         noOfEpisodes: req.body.noOfEpisodes
     })
-    // saveCover(serie, req.body.cover)
 
     //Save the cover
     if(req.body.cover == null)
@@ -156,7 +154,6 @@ router.delete('/:id', async (req, res) => {
         serie = await Serie.findById(req.params.id)
 
         // AWS part
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: ", serie.aws_s3_title)
         const command = new DeleteObjectCommand ({
             Bucket: "translabserver-bucket",
             Key: `covers/${serie.aws_s3_title}`
@@ -167,7 +164,7 @@ router.delete('/:id', async (req, res) => {
 
         // AWS s3
         const response = await client.send(command)
-        console.log(response)
+        // console.log(response)
         //
     }
     catch (err){

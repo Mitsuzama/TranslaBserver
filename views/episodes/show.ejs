@@ -1,0 +1,8 @@
+<h2><%= episod.title %></h2>
+<div>Serie: <%= episod.ownerSerie.title %></div>
+<div>Numar linii: <%= episod.totalNumberOfLines %></div>
+<div>Numarul episodului: <%= episod.episodeNumber %></div>
+
+<a href="/episodes/<%= episod.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', { url: `/episodes/${episod.id}` }) %>
+<a href="/series/<%= episod.ownerSerie.id %>">Afiseaza Serie</a>

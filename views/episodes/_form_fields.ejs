@@ -15,7 +15,7 @@
 
 <div>
     <label>Serie</label>
-    <select name="serie">
+    <select name="ownerSerie">
         <% series.forEach(serie => { %>
             <!-- if an user already selected an author, we want to set that option as selected -->
             <% if(serie.id === episod.ownerSerie) { %>

@@ -1,7 +1,9 @@
 <h2>Episoade recente</h2>
 <% episodes.forEach(episod => { %>
-    <div>
-        <div>Episodul numarul: <%= episod.episodeNumber %></div>
-        <div>Titlul: <%= episod.title %></div>
-    </div>
+    <a href="/episodes/<%= episod.id %>">
+        <div>
+            <div>Episodul numarul: <%= episod.episodeNumber %></div>
+            <div>Titlul: <%= episod.title %></div>
+        </div>
+    </a>
 <%}) %>

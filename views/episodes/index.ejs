@@ -20,7 +20,9 @@ UI for the user to input the serie he is searching.
 <br>
 <% episodes.forEach(episod => { %>
     <div>
-        <div>Episodul numarul: <%= episod.episodeNumber %></div>
-        <div>Titlul: <%= episod.title %></div>
+        <a href="/episodes/<%= episod.id %>">
+            <div>Episodul numarul: <%= episod.episodeNumber %></div>
+            <div>Titlul: <%= episod.title %></div>
+        </a>
     </div>
 <%}) %>

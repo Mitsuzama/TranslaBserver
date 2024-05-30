@@ -1,0 +1,11 @@
+<h2><%= serie.title %></h2>
+<a href="/series/<%= serie.id %>/edit">Editeaza</a>
+<%- include('../partials/deleteForm', 
+            { url: `/series/${serie.id}` }) %>
+<% if (episodesOfSeries.length > 0) { %>
+  <h2>Episoade Traduse din aceasta serie: </h2>
+  <% episodesOfSeries.forEach(episod => { %>
+    <div>Episodul numarul: <%= episod.episodeNumber %></div>
+    <div>Titlul: <%= episod.title %></div>
+  <% }) %>
+<% } %>

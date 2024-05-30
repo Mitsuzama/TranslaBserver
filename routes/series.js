@@ -4,7 +4,8 @@ import Serie from '../models/serie.js'
 
 ///
 // dependencies
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { Episod } from '../models/episod.js'
 const client = new S3Client({})
 ///
 
@@ -63,14 +64,12 @@ router.post('/', async (req, res) => {
 
     try {
         const newSerie = await serie.save()
-        // res.redirect(`series/${newSerie.id}`)
+        res.redirect(`series/${newSerie.id}`)
 
         // AWS s3
         const response = await client.send(command)
         console.log(response)
         //
-
-        res.redirect(`series`)
     }
     catch (err){
         console.error(err)
@@ -83,8 +82,17 @@ router.post('/', async (req, res) => {
 })
 
 // :id - A variable with the value id will be passed along with the request
-router.get('/:id', (req, res) => {
-    res.send('Show Author ' + req.params.id)
+router.get('/:id', async (req, res) => {
+    try {
+        const serie = await Serie.findById(req.params.id)
+        const episodes = await Episod.find({ ownerSerie: serie.id }).limit(6).exec()
+        res.render('series/show', {
+          serie: serie,
+          episodesOfSeries: episodes
+        })
+    } catch {
+        res.redirect('/')
+    }
 })
 
 // Edit path
@@ -98,13 +106,78 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 //Update route
-router.put('/:id', (req, res) => {
-    res.send('Update Author ' + req.params.id)
+router.put('/:id', async (req, res) => {
+    let serie
+
+    try {
+        serie = await Serie.findById(req.params.id)
+
+        //Update the series
+        serie.title = req.body.title
+        serie.description = req.body.description,
+        serie.noOfEpisodes = req.body.noOfEpisodes
+        //
+
+        // AWS part
+        serie.aws_s3_title = `${Date.now()}_${req.body.title}`
+        const command = new PutObjectCommand({
+            Bucket: "translabserver-bucket",
+            Key: `covers/${serie.aws_s3_title}`,
+            Body: serie.coverPicture,
+            ContentType: serie.coverImageType
+        })
+
+        await serie.save()
+        res.redirect(`/series/${serie.id}`)
+
+        // AWS s3
+        const response = await client.send(command)
+        console.log(response)
+        //
+    }
+    catch (err){
+        console.error(err)
+        if (serie == null) {
+            res.redirect('/')
+        } else {
+            res.render('series/edit', {
+                serie: serie,
+                errorMessage: 'Error Updating Serie'
+            })
+        }
+    }
 })
 
 // Delete route
-router.delete('/:id', (req, res) => {
-    res.send('Delete Author ' + req.params.id)
+router.delete('/:id', async (req, res) => {
+    let serie
+
+    try {
+        serie = await Serie.findById(req.params.id)
+
+        // AWS part
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: ", serie.aws_s3_title)
+        const command = new DeleteObjectCommand ({
+            Bucket: "translabserver-bucket",
+            Key: `covers/${serie.aws_s3_title}`
+        })
+
+        await serie.deleteOne()
+        res.redirect(`/series`)
+
+        // AWS s3
+        const response = await client.send(command)
+        console.log(response)
+        //
+    }
+    catch (err){
+        console.error(err)
+        if (serie == null) {
+            res.redirect('/')
+        } else {
+        res.redirect(`/series/${serie.id}`)
+        }
+    }
 })
 
 export default router

@@ -1,5 +1,5 @@
-// const mongoose = require('mongoose')
 import mongoose from 'mongoose'
+import { Episod } from './episod.js'
 
 const serieSchema = new mongoose.Schema({
     title: {
@@ -24,6 +24,9 @@ const serieSchema = new mongoose.Schema({
     },
     noOfEpisodes: {
         type: String
+    },
+    aws_s3_title: {
+        type: String
     }
 })
 
@@ -33,7 +36,18 @@ serieSchema.virtual('coverImagePath').get(function() {
     }
 })
 
-// module.exports = mongoose.model('Serie', serieSchema)
-// export default mongoose.model('Serie', serieSchema)
+// In case we want to delete aa series, we should not be able in case of linked episodes
+serieSchema.pre('remove', function(next) {
+    Episod.find({ ownerSerie: this.id }, (err, episods) => {
+        if (err) { // if we have errors
+            next(err)
+        } else if (episods.length > 0) { //if we have episodes
+            next(new Error('This anime series has episodes attached'))
+        } else {
+            next()
+        }
+    })
+})
+
 const Serie = mongoose.model('Serie', serieSchema)
 export default Serie

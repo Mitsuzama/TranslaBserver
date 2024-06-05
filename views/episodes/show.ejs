@@ -3,6 +3,13 @@
 <div>Numar linii: <%= episod.totalNumberOfLines %></div>
 <div>Numarul episodului: <%= episod.episodeNumber %></div>
 
+
+<% if (episod.translatedFile != null) { %>
+    <h3>Translated File Content:</h3>
+    <pre><%= episod.translatedFile.toString('utf-8') %></pre>
+<% } %>
+
+
 <a href="/episodes/<%= episod.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm', { url: `/episodes/${episod.id}` }) %>
 <a href="/series/<%= episod.ownerSerie.id %>">Afiseaza Serie</a>

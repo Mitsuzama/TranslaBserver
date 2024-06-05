@@ -14,11 +14,6 @@ const serieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    listOfTranslatedEpisodes: [{
-        // list of episodes
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Episod'
-    }],
     description: {
         type: String
     },
@@ -36,7 +31,7 @@ serieSchema.virtual('coverImagePath').get(function() {
     }
 })
 
-// In case we want to delete aa series, we should not be able in case of linked episodes
+// In case we want to delete a series, we should not be able in case of linked episodes
 serieSchema.pre('remove', function(next) {
     Episod.find({ ownerSerie: this.id }, (err, episods) => {
         if (err) { // if we have errors

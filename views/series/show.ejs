@@ -1,9 +1,13 @@
+<!-- Showing the title, description -->
 <h2><%= serie.title %></h2>
-<img width="100" height="150" src="<%= serie.coverPicture %>">
+<img width="100" height="150" src="<%= serie.coverImagePath %>">
+
+<div>Descriere: <%= serie.description %></div>
+
+<div>Numarul episoadelor: <%= serie.noOfEpisodes %></div>
 
 <a href="/series/<%= serie.id %>/edit">Editeaza</a>
-<%- include('../partials/deleteForm', 
-            { url: `/series/${serie.id}` }) %>
+<%- include('../partials/deleteForm', { url: `/series/${serie.id}` }) %>
 
 <% if (episodesOfSeries.length > 0) { %>
     <h2>Episoade Traduse din aceasta serie: </h2>

@@ -4,6 +4,11 @@ This is a site that keeps track of my work as an anime series translator. This w
 
 ---
 
+
+![Translabserver](https://github.com/Mitsuzama/TranslaBserver/assets/18029721/e15f5742-5e34-4a8c-8676-ce34f5f35503)
+
+---
+
 How to connect to the EC2 instance and deploy your web server:
 
 1. Login to your AWS account, search for EC2 and press „Launch Instance”

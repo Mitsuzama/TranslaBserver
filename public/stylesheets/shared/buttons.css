@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.btn {
+    border: 1px solid black;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 1.2rem;
+    font-family: "Poppins";
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-row {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* select every single child of the button row */
+.btn-row > * { 
+    margin-left: 1rem;
+}
+
+.btn-row > *:first-child { 
+    margin-left: 0;
+}
+
+.btn-cru {
+    color: black;
+    background-color: #D6EAF8;
+}
+
+.btn-cru:hover {
+    color: black;
+    background-color: #AED6F1;
+}
+
+.btn-d {
+    color: black;
+    background-color: #FADBD8;
+}
+
+.btn-d:hover {
+    color: black;
+    background-color: #EC7063;
+}

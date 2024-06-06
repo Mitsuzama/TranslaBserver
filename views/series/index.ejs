@@ -14,9 +14,10 @@ UI for the user to input the serie he is searching.
 <br>
 <% series.forEach(serie => { %>
     <div><%= serie.title %></div>
-    <a href="/series/<%= serie.id %>">Arata</a>
-    <a href="/series/<%= serie.id %>/edit">Editeaza</a>
-    <%- include('../partials/deleteForm', { url: `/series/${serie.id}`}) %>
-
     <img height="150" width="100" src="<%= serie.coverImagePath %>">
+    <div class="btn-row">
+        <a class="btn btn-cru" href="/series/<%= serie.id %>">Arata</a>
+        <a class="btn btn-cru" href="/series/<%= serie.id %>/edit">Editeaza</a>
+        <%- include('../partials/deleteForm', { url: `/series/${serie.id}`}) %>
+    </div>
 <% }) %>

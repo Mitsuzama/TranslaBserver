@@ -6,9 +6,9 @@ const router = express.Router()
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 
 // dependencies
-// import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 
-// const client = new S3Client({})
+const client = new S3Client({})
 ///
 
 // All Anime Shows(Serie) route
@@ -47,31 +47,21 @@ router.post('/', async (req, res) => {
     try {
         saveCover(serie, req.body.cover)
 
-        //Save the cover
-        // if(req.body.cover == null)
-        //         return
-
-        // const cover = JSON.parse(req.body.cover)
-        // if (cover != null) {
-        //     serie.coverPicture = new Buffer.from(cover.data, 'base64')
-        //     serie.coverImageType = cover.type
-        // }
-
         // AWS part
-        // const command = new PutObjectCommand({
-        //     Bucket: "translabserver-bucket",
-        //     Key: `covers/${Date.now()}_${req.body.title}`,
-        //     Body: serie.coverPicture,
-        //     ContentType: serie.coverImageType
-        // })
+        const command = new PutObjectCommand({
+            Bucket: "translabserver-bucket",
+            Key: `covers/${serie.aws_s3_title}`,
+            Body: serie.coverPicture,
+            ContentType: serie.coverImageType
+        })
 
     
         const newSerie = await serie.save()
         res.redirect(`series/${newSerie.id}`)
 
         // AWS s3
-        // const response = await client.send(command)
-        // console.log(response)
+        const response = await client.send(command)
+        console.log(response)
         //
     } catch {
         res.render('series/new', {
@@ -122,21 +112,22 @@ router.put('/:id', async (req, res) => {
         //
 
         // AWS part
-        // serie.aws_s3_title = `${Date.now()}_${req.body.title}`
-        // const command = new PutObjectCommand({
-        //     Bucket: "translabserver-bucket",
-        //     Key: `covers/${serie.aws_s3_title}`,
-        //     Body: serie.coverPicture,
-        //     ContentType: serie.coverImageType
-        // })
+        const command = new PutObjectCommand({
+            Bucket: "translabserver-bucket",
+            Key: `covers/${serie.aws_s3_title}`,
+            Body: serie.coverPicture,
+            ContentType: serie.coverImageType
+        })
+
+        // AWS s3
+        const response = await client.send(command)
+        console.log(response)
+        //
 
         await serie.save()
         res.redirect(`/series/${serie.id}`)
 
-        // AWS s3
-        // const response = await client.send(command)
-        // console.log(response)
-        //
+        
     } catch {
         if (serie == null) {
             res.redirect('/')

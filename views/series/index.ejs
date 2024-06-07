@@ -7,17 +7,19 @@ UI for the user to input the serie he is searching.
 <form action="/series" method="GET">
     <label>Titlu</label>
     <input type="text" name="title" value="<%= searchOptions.title %>">
-    <button type="submit">Search</button>
+    <button class="btn-search" type="submit">Search</button>
 </form>
 
 <!-- Afisarea tuturor seriilor -->
 <br>
 <% series.forEach(serie => { %>
-    <div><%= serie.title %></div>
-    <img height="150" width="100" src="<%= serie.coverImagePath %>">
-    <div class="btn-row">
-        <a class="btn btn-cru" href="/series/<%= serie.id %>">Arata</a>
-        <a class="btn btn-cru" href="/series/<%= serie.id %>/edit">Editeaza</a>
-        <%- include('../partials/deleteForm', { url: `/series/${serie.id}`}) %>
+    <div class="serie-item">
+        <div><%= serie.title %></div>
+        <img height="150" width="100" src="<%= serie.coverImagePath %>">
+        <div class="btn-row">
+            <a class="btn btn-cru" href="/series/<%= serie.id %>">Arata</a>
+            <a class="btn btn-cru" href="/series/<%= serie.id %>/edit">Editeaza</a>
+            <%- include('../partials/deleteForm', { url: `/series/${serie.id}`}) %>
+        </div>
     </div>
 <% }) %>

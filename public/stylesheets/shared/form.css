@@ -1,0 +1,37 @@
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.form-item-no-grow {
+    flex-grow: 0;
+}
+
+.filepond--root {
+    font-family: 'Poppins';
+    margin-bottom: 0;
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 1rem ;
+}
+
+.filepond--panel-root {
+    /* background-color: var(--form-input-background-color); */
+    border: 1px solid black;
+    /* width: 5rem;
+    height: 5rem; */
+    color: black;
+}
+
+.filepond--drop-label {
+    color: black;
+    font-size: inherit;
+}
+
+.serie-item {
+    margin: 0.5rem;
+    font-size: 1.5em;
+}

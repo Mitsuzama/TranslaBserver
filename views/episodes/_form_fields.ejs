@@ -1,33 +1,36 @@
-<div>
-    <label>Titlu</label>
-    <input type="text" name="title" value="<%= episod.title %>">
-</div>
+<div class="form-row">
 
-<div>
-    <label>Numarul episodului</label>
-    <input type="number" name="episodeNumber" value="<%= episod.episodeNumber %>">
-</div>
+    <div>
+        <label>Titlu</label>
+        <input type="text" name="title" value="<%= episod.title %>">
+    </div>
 
-<div>
-    <label>Numar de linii traduse</label>
-    <input type="number" name="totalNumberOfLines" min="1" value="<%= episod.totalNumberOfLines %>">
-</div>
+    <div>
+        <label>Numarul episodului</label>
+        <input type="number" name="episodeNumber" value="<%= episod.episodeNumber %>">
+    </div>
 
-<div>
-    <label>Serie</label>
-    <select name="ownerSerie">
-        <% series.forEach(serie => { %>
-            <!-- if an user already selected an author, we want to set that option as selected -->
-            <% if(serie.id === episod.ownerSerie) { %>
-                <option selected label="<%= serie.title %>" value="<%= serie.id %>" ></option>
-            <% } else { %>
-                <option label="<%= serie.title %>" value="<%= serie.id %>"></option>
-            <% } %>
-        <% }) %>
-    </select>
-</div>
+    <div>
+        <label>Numar de linii traduse</label>
+        <input type="number" name="totalNumberOfLines" min="1" value="<%= episod.totalNumberOfLines %>">
+    </div>
 
-<div>
-    <label>Fisier tradus</label>
-    <input type="file" name="translatedFile" class="filepond">
+    <div>
+        <label>Serie</label>
+        <select name="ownerSerie">
+            <% series.forEach(serie => { %>
+                <!-- if an user already selected an author, we want to set that option as selected -->
+                <% if(serie.id === episod.ownerSerie) { %>
+                    <option selected label="<%= serie.title %>" value="<%= serie.id %>" ></option>
+                <% } else { %>
+                    <option label="<%= serie.title %>" value="<%= serie.id %>"></option>
+                <% } %>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-item-no-grow">
+        <label>Fisier tradus</label>
+        <input type="file" name="translatedFile" class="filepond">
+    </div>
 </div>

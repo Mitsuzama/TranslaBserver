@@ -11,6 +11,16 @@
     text-align: center;
 }
 
+.btn-search {
+    border: 1px solid black;
+    border-radius: .5rem;
+    font-size: 1.2rem;
+    font-family: "Poppins";
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
 .btn-row {
     display: flex;
     align-items: flex-start;

@@ -13,13 +13,13 @@ UI for the user to input the serie he is searching.
         <label>Numarul episodului</label>
         <input type="number" min="1" name="episodeNumber" value="<%= searchParameters.episodeNumber %>">
     </div>
-    <button type="submit">Search</button>
+    <button class="btn-search" type="submit">Search</button>
 </form>
 
 <!-- Afisarea tuturor episoadelor -->
 <br>
 <% episodes.forEach(episod => { %>
-    <div>
+    <div class="serie-item">
         <a href="/episodes/<%= episod.id %>">
             <div>Episodul numarul: <%= episod.episodeNumber %></div>
             <div>Titlul: <%= episod.title %></div>

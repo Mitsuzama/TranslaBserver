@@ -1,19 +1,22 @@
-<div>
-    <label for="title">Titlu</label>
-    <input type="text" name="title" id="title" value="<%= serie.title %>">
-</div>
+<div class="form-row">
+    <div>
+        <label for="title">Titlu</label>
+        <input type="text" name="title" id="title" value="<%= serie.title %>">
+    </div>
+    
+    <div>
+        <label for="description">Descriere</label>
+        <textarea id="description" name="description"><%= serie.description %></textarea>
+    </div>
+    
+    <div>
+        <label for="noOfEpisodes">Numar episoade</label>
+        <input type="text" name="noOfEpisodes" id="noOfEpisodes" value="<%= serie.noOfEpisodes %>">
+    </div>
 
-<div>
-    <label>Cover</label>
-    <input type="file" name="cover" class="filepond">
-</div>
-
-<div>
-    <label for="description">Descriere</label>
-    <textarea id="description" name="description"><%= serie.description %></textarea>
-</div>
-
-<div>
-    <label for="noOfEpisodes">Numar episoade</label>
-    <input type="text" name="noOfEpisodes" id="noOfEpisodes" value="<%= serie.noOfEpisodes %>">
+    <div class="form-item-no-grow">
+        <label>Cover</label>
+        <input type="file" name="cover" class="filepond">
+    </div>
+    
 </div>
